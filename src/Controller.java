@@ -27,6 +27,7 @@ public class Controller implements Serializable {
                     exitMainMenu(in);
                     break;
                 case "4":
+                    String show = Model.readFromFile();
 
                     exitMainMenu(in);
                     break;
@@ -123,7 +124,7 @@ public class Controller implements Serializable {
 
                 while (!exitCreateMenu) {
                     try {
-
+                        System.out.println(Model.readFromFile());
                         System.out.println("Введите номер трека, который хотите изменить:");
                         int num = in.nextInt();
                         View.setEdit();

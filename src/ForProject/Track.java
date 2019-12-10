@@ -70,8 +70,8 @@ public class Track implements Serializable {
         this.numberTrack = numberTrack;
     }
 
-    public String toString(){
-        StringBuilder str = new StringBuilder();
+    /*public String toString(){*/
+       /* StringBuilder str = new StringBuilder();
         str.append("Номер трека:\t")
                 .append(numberTrack + "\n")
                 .append("Имя трека:\t")
@@ -83,10 +83,10 @@ public class Track implements Serializable {
                 .append("Название альбома:\t")
                 .append(titleAlbum + "\n")
                 .append("Длина записи:\t")
-                .append(recordLength.getMinute() + "   минут   " + recordLength.getSecond() + "    секунд" + "\n");
+                .append(recordLength.getMinute() + "   минут   " + recordLength.getSecond() + "    секунд" + "\n");*/
 
-        return str.toString();
+    /*return str.toString();*/
     }
 
 
-}
+
