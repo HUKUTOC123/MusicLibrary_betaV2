@@ -1,54 +1,60 @@
 package ForProject;
 
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 public class TracksLib implements Serializable {
     private String name;
-    private LinkedList<Track> TracksList=new LinkedList<Track>();
-    public  TracksLib(String name){ this.name=name; }
-    public TracksLib(String name, LinkedList<Track> tasksList){
+    private ArrayList<Track> tracksList = new ArrayList<Track>();
+
+    public TracksLib(String name, ArrayList<Track> tracksList) {
         this.name=name;
-        this.TracksList=tasksList;
+        this.tracksList = tracksList;
     }
-    public  TracksLib(){}
     public String getName(){return name;}
     public void setName(){this.name=name;}
     public Track[] getTracks(){
-        Track[] array=new Track[TracksList.size()];
+        Track[] array = new Track[tracksList.size()];
         for(int i=0;i<array.length; i++){
-            array[i]=TracksList.get(i);
+            array[i] = tracksList.get(i);
         }
         return array;
     }
-    public LinkedList<Track> getTasksList(){return TracksList;}
+
+    public ArrayList<Track> getTracksList() {
+        return tracksList;
+    }
     //создание
-    public void createTask(Track track){
-        TracksList.add(track);
+    public void createTrack(Track track) {
+        tracksList.add(track);
     }
     //удаление
-    public void deleteTask(int num){
-        TracksList.remove(num);
+    public void deleteTrack(int num) {
+        tracksList.remove(num);
     }
     //изменение
-    public void setTask(int index,Track tracks_list){
-        TracksList.set(index,tracks_list);
+    public void setTrack(int index, Track tracks_list) {
+        tracksList.set(index, tracks_list);
+    }
+
+    public Track getTrack(int index) {
+        return tracksList.get(index);
     }
     //представление чеез массив
-    public Track[] getTaskLog(){
-        Track[] array=new Track[TracksList.size()];
+    public Track[] getTrackLib() {
+        Track[] array = new Track[tracksList.size()];
         for(int i=0;i<array.length; i++){
-            array[i]=TracksList.get(i);
+            array[i] = tracksList.get(i);
         }
         return array;
     }
     //просмотр
-    public String toString(){
-        StringBuffer str=new StringBuffer();
-        int i=0;
-        if(TracksList!=null) {
-            for (Track element : TracksList) {
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        int i = 0;
+        if (tracksList != null) {
+            for (Track element : tracksList) {
                 str.append(i + ".\t")
                         .append(element.toString() + "\n");
                 i++;
@@ -56,5 +62,6 @@ public class TracksLib implements Serializable {
         }
         return str.toString();
     }
+
 
 }

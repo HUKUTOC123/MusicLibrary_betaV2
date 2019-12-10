@@ -1,45 +1,167 @@
-import ForProject.Recordlen;
 import ForProject.Track;
 import ForProject.TracksLib;
 
-import java.io.*;
-import java.util.InputMismatchException;
-import java.util.LinkedList;
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Controller {
+public class Controller implements Serializable {
 
-    public static Track inputTrack(Scanner in) {
+    public void mainMenu() {
+        ArrayList<Track> TrackLib = new ArrayList<Track>();
+        TracksLib library = new TracksLib("Музыкальня библиотека", TrackLib);
+        Scanner in = new Scanner(System.in);
+        boolean exit = false;
+        while (!exit) {
+            View.printMain();
+            switch (in.nextLine()) {
+                case "1":
+                    createMenu(library);
+                    Model.inputObjectToFile(TrackLib);
+                    break;
+                case "2":
+                    deleteMenu(library);
+                    break;
+                case "3":
+                    setMenu();
+                    exitMainMenu(in);
+                    break;
+                case "4":
 
-        System.out.println("Введите название трека");
-        String Track_Name = in.nextLine();
-        System.out.println("Введите название жанра:");
-        String Genre_Name = in.nextLine();
-        System.out.println("Введите имя исполнителя:");
-        String Performer_Name = in.nextLine();
-        System.out.println("Введите название альбома:");
-        String Album_title = in.nextLine();
-        System.out.print("Введите номер трека");
-        int Track_number = in.nextInt();
-        System.out.println("Введите длительность трека");
-        System.out.print("Часов: ");
-        int hour = in.nextInt();
-        System.out.print("Минут: ");
-        int minute = in.nextInt();
-        System.out.print("Секунд: ");
-        int second = in.nextInt();
-        Recordlen Record_length = new Recordlen(hour, minute, second);
-        Track track = new Track(Track_Name, Genre_Name, Track_number, Record_length, Album_title, Performer_Name);
-        return track;
+                    exitMainMenu(in);
+                    break;
+                case "5":
+
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Неверно веденный символ\n" +
+                            "-----------------------------------------");
+                    break;
+            }
+        }
     }
 
-    public static void serialisationTrackLib(OutputStream out, LinkedList<Track> linkedListTask) throws IOException {
-        ObjectOutputStream objectOut = new ObjectOutputStream(out);
-        objectOut.writeObject(linkedListTask);
+
+    private void createMenu(TracksLib library) {
+        Scanner in = new Scanner(System.in);
+        boolean exitCreateMenu = false;
+        View.printAdd();
+        String str = in.nextLine();
+        switch (str) {
+            case "1":
+
+                while (!exitCreateMenu) {
+                    try {
+                        library.createTrack(Model.inputTrack(in));
+
+                        exitCreateMenu = true;
+                    } catch (Exception e) {
+
+                        System.err.println("Неверно введенный символ " + e.getMessage());
+                    }
+                }
+
+
+                break;
+            case "2":
+                break;
+            default:
+                System.out.println("Неверно введенный символ\n" +
+                        "----------------------------------------");
+                break;
+        }
     }
 
-    public static LinkedList<Track> deserialisationTrackLib(InputStream in) throws IOException, ClassNotFoundException {
-        ObjectInputStream objectIn = new ObjectInputStream(in);
-        return (LinkedList<Track>) objectIn.readObject();
+    private void deleteMenu(TracksLib manager) {
+        Scanner in = new Scanner(System.in);
+        boolean exitCreateMenu = false;
+        View.printDelete();
+        String str = in.nextLine();
+        switch (str) {
+            case "1":
+                while (!exitCreateMenu) {
+                    try {
+                        Singleton.getInstance().deleteTrack();
+
+                        exitCreateMenu = true;
+                    } catch (Exception e) {
+
+                        System.err.println("Неверно введенный символ " + e.getMessage());
+                        in.nextLine();
+                    }
+                }
+                break;
+            case "2":
+                break;
+            default:
+                System.out.println("Неверно введенный символ\n" +
+                        "--------------------------------------------");
+                break;
+        }
     }
+
+    private void exitMainMenu(Scanner in) {
+        View.printExit();
+        String q = in.nextLine();
+        switch (q) {
+            case "1":
+                break;
+            default:
+                System.out.println("Неверно введенный символ");
+                break;
+        }
+    }
+
+    private void setMenu() {
+        Scanner in = new Scanner(System.in);
+        boolean exitCreateMenu = false;
+        View.printSet();
+        String str = in.nextLine();
+        switch (str) {
+            case "1":
+
+                while (!exitCreateMenu) {
+                    try {
+
+                        System.out.println("Введите номер трека, который хотите изменить:");
+                        int num = in.nextInt();
+                        View.setEdit();
+                        Scanner inn = new Scanner(System.in);
+                        String str2 = inn.nextLine();
+                        switch (str2) {
+                            case "1":
+                                Singleton.getInstance().changePerformerName(num);
+                                break;
+                            case "2":
+                                Singleton.getInstance().changeTrackName(num);
+                                break;
+                            case "3":
+                                Singleton.getInstance().changeGenreName(num);
+                                break;
+                        }
+
+
+                        System.out.println("Элемент успешно изменен \n" +
+                                "------------------------------------------");
+                        exitCreateMenu = true;
+                    } catch (Exception e) {
+
+                        System.err.println("Невверно введенный символ " + e.getMessage());
+                        in.nextLine();
+                    }
+                }
+                break;
+            case "2":
+                break;
+            default:
+                System.out.println("Неверно введенный символ\n" +
+                        "--------------------------------------------");
+                break;
+        }
+    }
+
+
 }
+
+
