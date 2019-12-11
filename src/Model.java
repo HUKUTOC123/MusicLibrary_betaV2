@@ -69,19 +69,19 @@ public class Model implements Serializable {
     public static void inputObjectToFile(ArrayList<Track> TracksList) {
 
         try {
-            FileWriter writer = new FileWriter("output.txt");
+            FileWriter writer = new FileWriter("output.txt", true);
             for (Track tracks : TracksList) {
                 String nameTrack = tracks.getNameTrack();
                 String nameGenre = tracks.getNameGenre();
                 String numberTrack = tracks.getNumberTrack();
                 int minute = tracks.getRecordLength().getMinute();
                 String minute1 = String.valueOf(minute);
-                int second = tracks.getRecordLength().getMinute();
+                int second = tracks.getRecordLength().getSecond();
                 String second1 = String.valueOf(second);
                 String titleAlbum = tracks.getTitleAlbum();
                 String performerName = tracks.getPerformerName();
                 /* String result = ("Номер: " + numberTrack + "|" + "Название :" + nameTrack + "|" + "Жанр:" + nameGenre + "|" + "Исполнитель:" + performerName + "|" + "Альбом:" + titleAlbum + "|" + "Длительность :" + hour1 + "часов ");*/
-                String result = (numberTrack + "|" + nameTrack + "|" + nameGenre + "|" + performerName + "|" + titleAlbum + "|" + minute1 + "|" + second1 + System.getProperty("line.separator"));
+                String result = (numberTrack + "//" + nameTrack + "//" + nameGenre + "//" + performerName + "//" + titleAlbum + "//" + minute1 + "//" + second1 + System.getProperty("line.separator"));
                 writer.write(result);
             }
             writer.close();
@@ -91,40 +91,44 @@ public class Model implements Serializable {
 
     }
 
-    public static String readFromFile() {
+    public static void readFromFile() {
         String s = "";
-        StringBuilder str = null;
         try {
-            Scanner in = new Scanner(new File("output.txt"));
-            while (in.hasNext())
-                s += in.nextLine();
-            String[] data = s.split("|");
-            String numberTrack = data[0];
-            String nameTrack = data[1];
-            String nameGenre = data[2];
-            String performerName = data[3];
-            String titleAlbum = data[4];
-            String minute = data[5];
-            String second = data[6];
 
-            str = new StringBuilder();
-            str.append("Номер трека:\t")
-                    .append(numberTrack + "\n")
-                    .append("Имя трека:\t")
-                    .append(nameTrack + "\n")
-                    .append("Жанр:\t")
-                    .append(nameGenre + "\n")
-                    .append("Имя исполнителя:\t")
-                    .append(performerName + "\n")
-                    .append("Название альбома:\t")
-                    .append(titleAlbum + "\n")
-                    .append("Длина записи:\t")
-                    .append(minute + "   минут   " + second + "    секунд" + "\n");
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+            while ((s = br.readLine()) != null) {
+                toConsole(s);
+            }
+            br.close();
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
         }
-        return str.toString();
+    }
+
+    public static void toConsole(String fileString) {
+        StringBuilder str = new StringBuilder();
+        String[] data = fileString.split("//");
+        String numberTrack = data[0];
+        String nameTrack = data[1];
+        String nameGenre = data[2];
+        String performerName = data[3];
+        String titleAlbum = data[4];
+        String minute = data[5];
+        String second = data[6];
+
+        str.append("Номер трека:\t")
+                .append(numberTrack + "\n")
+                .append("Имя трека:\t")
+                .append(nameTrack + "\n")
+                .append("Жанр:\t")
+                .append(nameGenre + "\n")
+                .append("Имя исполнителя:\t")
+                .append(performerName + "\n")
+                .append("Название альбома:\t")
+                .append(titleAlbum + "\n")
+                .append("Длина записи:\t")
+                .append(minute + "   минут(ы) " + second + "   секунд" + "\n");
+        System.out.println(str);
     }
 
     public void addNewTrack() {
