@@ -1,3 +1,5 @@
+package MVC;
+
 public class Singleton {
     private static Model instance;
 

@@ -1,3 +1,5 @@
+package MVC;
+
 import ForProject.Track;
 import ForProject.TracksLib;
 
@@ -27,11 +29,17 @@ public class Controller implements Serializable {
                     exitMainMenu(in);
                     break;
                 case "4":
-                    Model.readFromFile();
+
 
                     exitMainMenu(in);
                     break;
                 case "5":
+                    System.out.println("Введите имя для поиска");
+                    String nameCheck = in.nextLine();
+                    Model.checkName(nameCheck);
+                    exitMainMenu(in);
+                    break;
+                case "6":
 
                     exit = true;
                     break;
@@ -54,6 +62,7 @@ public class Controller implements Serializable {
 
                 while (!exitCreateMenu) {
                     try {
+
                         library.createTrack(Model.inputTrack(in));
 
                         exitCreateMenu = true;
@@ -83,8 +92,10 @@ public class Controller implements Serializable {
             case "1":
                 while (!exitCreateMenu) {
                     try {
-                        Singleton.getInstance().deleteTrack();
-
+                        Model.readFromFile();
+                        System.out.println("Введите номер удаляемого трека");
+                        String number = in.nextLine();
+                        Model.deleteTrack(number);
                         exitCreateMenu = true;
                     } catch (Exception e) {
 
@@ -126,19 +137,19 @@ public class Controller implements Serializable {
                     try {
                         Model.readFromFile();
                         System.out.println("Введите номер трека, который хотите изменить:");
-                        int num = in.nextInt();
+                        String num = in.nextLine();
                         View.setEdit();
                         Scanner inn = new Scanner(System.in);
                         String str2 = inn.nextLine();
                         switch (str2) {
                             case "1":
-                                Singleton.getInstance().changePerformerName(num);
-                                break;
-                            case "2":
                                 Singleton.getInstance().changeTrackName(num);
                                 break;
+                            case "2":
+
+                                break;
                             case "3":
-                                Singleton.getInstance().changeGenreName(num);
+
                                 break;
                         }
 

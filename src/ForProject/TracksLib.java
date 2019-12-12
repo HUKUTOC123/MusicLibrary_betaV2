@@ -1,12 +1,14 @@
 package ForProject;
 
+import MVC.Model;
+
 import java.io.Serializable;
 import java.util.ArrayList;
-
 
 public class TracksLib implements Serializable {
     private String name;
     private ArrayList<Track> tracksList = new ArrayList<Track>();
+
 
     public TracksLib(String name, ArrayList<Track> tracksList) {
         this.name=name;
@@ -27,19 +29,21 @@ public class TracksLib implements Serializable {
     }
     //создание
     public void createTrack(Track track) {
-        tracksList.add(track);
+        if (Model.hasDuplicates(track, tracksList)) tracksList.add(track);
+        else System.out.println("Дубликат!!!");
+
+
     }
     //удаление
-    public void deleteTrack(int num) {
-        tracksList.remove(num);
-    }
+
     //изменение
     public void setTrack(int index, Track tracks_list) {
         tracksList.set(index, tracks_list);
     }
 
-    public Track getTrack(int index) {
-        return tracksList.get(index);
+    public Track getTrack(String number) {
+        int ind = Integer.parseInt((number.trim()));
+        return tracksList.get(ind);
     }
     //представление чеез массив
     public Track[] getTrackLib() {

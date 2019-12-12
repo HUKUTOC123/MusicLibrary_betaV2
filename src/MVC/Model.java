@@ -1,3 +1,5 @@
+package MVC;
+
 import ForProject.Track;
 import ForProject.TracksLib;
 
@@ -60,11 +62,11 @@ public class Model implements Serializable {
         return titleAlbum;
     }
 
-    public static int numberDeleteTrack(Scanner in) {
+    /*public static int numberDeleteTrack(Scanner in) {
         System.out.println("Введите  новое название альбома:");
         int number = in.nextInt();
         return number;
-    }
+    }*/
 
     public static void inputObjectToFile(ArrayList<Track> TracksList) {
 
@@ -91,6 +93,54 @@ public class Model implements Serializable {
 
     }
 
+    public static void deleteTrack(String number) {
+        String s = "";
+
+        File sourceFile = new File("output.txt");
+        File outputFile = new File("output2.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            while ((s = reader.readLine()) != null) {
+                String[] string = s.split("//");
+                if (!number.equals(string[0])) {
+                    writer.write(s);
+                    writer.newLine();
+                }
+            }
+            reader.close();
+            writer.close();
+            sourceFile.delete();
+            outputFile.renameTo(sourceFile);
+
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+    }
+
+    public static void checkName(String nameforCheck) {
+        String s = "";
+        int key = 0;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+            while ((s = br.readLine()) != null) {
+                String[] checkString = s.split("//");
+                if (nameforCheck.equals(checkString[1])) {
+                    toConsole(s);
+                    key = 1;
+                    break;
+                }
+
+
+            }
+            if (key != 1) System.out.println("Не найдено!");
+            br.close();
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+    }
+
+
     public static void readFromFile() {
         String s = "";
         try {
@@ -103,6 +153,58 @@ public class Model implements Serializable {
         } catch (IOException exc) {
             System.out.println("IO error!" + exc);
         }
+    }
+
+    public static boolean hasDuplicates(Track track, ArrayList<Track> TracksList) {
+        boolean flag = false;
+        for (Track item : TracksList) {
+            if (track.equals(item)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /*public static void changeNameTrack(String  number){
+        String s = "";
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите новое название трека");
+        String newName= in.nextLine();
+        File sourceFile = new File("output.txt");
+        File outputFile = new File("output2.txt");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            while ((s = reader.readLine()) != null) {
+                String[] string  = s.split("//");
+                if(!number.equals(string[0])){
+                    string[2]=newName;
+                    writer.write(s);
+                }
+            }
+            reader.close();
+            writer.close();
+
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+    }*/
+    public String getNum() {
+        String s = "";
+        String num = "";
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader("output.txt"));
+            while ((s = br.readLine()) != null) {
+                String[] string = s.split("//");
+                string[0] = num;
+
+            }
+
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+        return num;
     }
 
     public static void toConsole(String fileString) {
@@ -131,13 +233,13 @@ public class Model implements Serializable {
         System.out.println(str);
     }
 
-    public void addNewTrack() {
+    /*public void addNewTrack() {
         Scanner in = new Scanner(System.in);
         library.createTrack(inputTrack(in));
         System.out.println("-----Трек успешно добавлен-----");
-    }
+    }*/
 
-    public void changePerformerName(int numTrack) {
+    public void changePerformerName(String numTrack) {
         Scanner in1 = new Scanner(System.in);
         Track track1 = library.getTrack(numTrack);
         track1.setPerformerName(inputPerformerName(in1));
@@ -145,7 +247,7 @@ public class Model implements Serializable {
                 "------------------------------------------");
     }
 
-    public void changeTrackName(int numTrack) {
+    public void changeTrackName(String numTrack) {
         Scanner in1 = new Scanner(System.in);
         Track track1 = library.getTrack(numTrack);
         track1.setNameTrack(inputTrackName(in1));
@@ -153,7 +255,7 @@ public class Model implements Serializable {
                 "------------------------------------------");
     }
 
-    public void changeGenreName(int numTrack) {
+    public void changeGenreName(String numTrack) {
         Scanner in1 = new Scanner(System.in);
         Track track1 = library.getTrack(numTrack);
         track1.setNameGenre(inputGenreName(in1));
@@ -161,18 +263,17 @@ public class Model implements Serializable {
                 "------------------------------------------");
     }
 
-    public void changeAlbumName(int numTrack) {
+    public void changeAlbumName(String numTrack) {
         Scanner in1 = new Scanner(System.in);
         Track track1 = library.getTrack(numTrack);
         track1.setAlbumTitle(inputAlbumTitle(in1));
     }
-
-    public void deleteTrack() {
+   /* public void deleteTrack() {
         Scanner in = new Scanner(System.in);
         int number = numberDeleteTrack(in);
         library.deleteTrack(number);
         System.out.println("-----Трек был удален-----");
-    }
+    }*/
 
 }
 

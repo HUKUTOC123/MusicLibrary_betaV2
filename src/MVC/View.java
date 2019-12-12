@@ -1,3 +1,5 @@
+package MVC;
+
 public class View {
 
     public static void printMain() {
@@ -7,7 +9,8 @@ public class View {
                 "2.Удалить трек;\n" +
                 "3.Изменить трек;\n" +
                 "4.Просмотр треков;\n" +
-                "5.Выход.\n");
+                "5.Поиск треков по имени;\n" +
+                "6.Выход.\n");
     }
 
     public static void printAdd() {
