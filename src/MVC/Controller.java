@@ -29,7 +29,7 @@ public class Controller implements Serializable {
                     exitMainMenu(in);
                     break;
                 case "4":
-
+                    Model.readFromFile();
 
                     exitMainMenu(in);
                     break;
@@ -143,10 +143,10 @@ public class Controller implements Serializable {
                         String str2 = inn.nextLine();
                         switch (str2) {
                             case "1":
-                                Singleton.getInstance().changeTrackName(num);
+                                Model.changeNameTrack(num);
                                 break;
                             case "2":
-
+                                Model.changePerformerName(num);
                                 break;
                             case "3":
 

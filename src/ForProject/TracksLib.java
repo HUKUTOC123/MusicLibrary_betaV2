@@ -1,7 +1,5 @@
 package ForProject;
 
-import MVC.Model;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -29,8 +27,8 @@ public class TracksLib implements Serializable {
     }
     //создание
     public void createTrack(Track track) {
-        if (Model.hasDuplicates(track, tracksList)) tracksList.add(track);
-        else System.out.println("Дубликат!!!");
+        tracksList.add(track);
+        System.out.println("-----Трек успешно добавлен-----");
 
 
     }

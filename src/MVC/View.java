@@ -37,8 +37,8 @@ public class View {
     }
 
     public static void setEdit() {
-        System.out.println("\n 1.Изменить имя исполнителя\n " +
-                "\n 2.Изменить название трека\n " +
+        System.out.println("\n 1.Изменить название трека\n " +
+                "\n 2.Изменить имя исполнителя\n " +
                 "\n 3.Изменить название жанра\n");
     }
 
