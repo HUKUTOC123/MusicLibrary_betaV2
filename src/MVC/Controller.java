@@ -9,6 +9,11 @@ import java.util.Scanner;
 
 public class Controller implements Serializable {
 
+    public static boolean checkString(String string) {
+        if (string == null) return false;
+        return string.matches("^-?\\d+$");
+    }
+
     public void mainMenu() {
         ArrayList<Track> TrackLib = new ArrayList<Track>();
         TracksLib library = new TracksLib("Музыкальня библиотека", TrackLib);
@@ -43,6 +48,9 @@ public class Controller implements Serializable {
 
                     exit = true;
                     break;
+               /* case "7":
+                    Model.hasDuplicates()
+                    break;*/
                 default:
                     System.out.println("Неверно веденный символ\n" +
                             "-----------------------------------------");
@@ -93,8 +101,11 @@ public class Controller implements Serializable {
                 while (!exitCreateMenu) {
                     try {
                         Model.readFromFile();
-                        System.out.println("Введите номер удаляемого трека");
-                        String number = in.nextLine();
+                        String number;
+                        do {
+                            System.out.println("Введите номер удаляемого трека");
+                            number = in.nextLine();
+                        }while (checkString(number)!= true);
                         Model.deleteTrack(number);
                         exitCreateMenu = true;
                     } catch (Exception e) {
@@ -136,21 +147,28 @@ public class Controller implements Serializable {
                 while (!exitCreateMenu) {
                     try {
                         Model.readFromFile();
-                        System.out.println("Введите номер трека, который хотите изменить:");
-                        String num = in.nextLine();
+                        String number;
+                        do {
+                            System.out.println("Введите номер трека, который хотите изменить:");
+                            number = in.nextLine();
+                        }while (checkString(number)!= true);
                         View.setEdit();
                         Scanner inn = new Scanner(System.in);
                         String str2 = inn.nextLine();
                         switch (str2) {
                             case "1":
-                                Model.changeNameTrack(num);
+                                Model.changeNameTrack(number);
                                 break;
                             case "2":
-                                Model.changePerformerName(num);
+                                Model.changePerformerName(number);
                                 break;
                             case "3":
-
+                                Model.changeGenreName(number);
                                 break;
+                            case "4":
+                                Model.changeAlbomTitle(number);
+                                break;
+
                         }
 
 

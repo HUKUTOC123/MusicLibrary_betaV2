@@ -12,10 +12,21 @@ public class Model implements Serializable {
     ArrayList<Track> TrackLib = new ArrayList<Track>();
     TracksLib library = new TracksLib("Музыкальная библиотека", TrackLib);
 
+    public static boolean checkString(String string) {
+        if (string == null) return false;
+        return string.matches("^-?\\d+$");
+    }
+
     public static Track inputTrack(Scanner in) {
 
-        System.out.println("Введите номер трека");
-        String Track_number = in.nextLine();
+        String number;
+
+
+        do {
+            System.out.println("Введите номер трека");
+            number = in.nextLine();
+        }while (checkString(number)!= true);
+        String Track_number = number;
         System.out.println("Введите название трека");
         String Track_Name = in.nextLine();
         System.out.println("Введите название жанра:");
@@ -169,7 +180,7 @@ public class Model implements Serializable {
     }
 
     public static void changeNameTrack(String number) {
-        String s = "";
+        String s;
         Scanner in = new Scanner(System.in);
         System.out.println("Введите новое название трека");
         String newName= in.nextLine();
@@ -177,7 +188,7 @@ public class Model implements Serializable {
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-            FileWriter writer = new FileWriter(sourceFile, true);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(sourceFile, true));
             while ((s = reader.readLine()) != null) {
                 String[] string = s.split("//");
                 if (number.equals(string[0])) {
@@ -189,28 +200,31 @@ public class Model implements Serializable {
                     String minute = string[5];
                     String second = string[6];
                     String newString = (numberTrack + "//" + newName + "//" + nameGenre + "//" + performerName + "//" + titleAlbum + "//" + minute + "//" + second);
-                    s = s.replace(s, newString);
-                    writer.write(s);
+                    s = s.replaceAll(s, newString);
+                    bw.newLine();
+                    bw.write(s);
                 }
             }
             reader.close();
-            writer.close();
+            //writer.close();
+            bw.close();
         } catch (IOException exc) {
             System.out.println("IO error!" + exc);
         }
     }
 
     public static void changePerformerName(String number) {
-        String s = "";
+        String s ;
         Scanner in = new Scanner(System.in);
         System.out.println("Введите новое имя исполнителя");
         String newPerformer = in.nextLine();
         File sourceFile = new File("output.txt");
-        File outputFile = new File("output2.txt");
+
 
         try {
             BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
-            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(sourceFile, true));
+
             while ((s = reader.readLine()) != null) {
                 String[] string  = s.split("//");
                 if (number.equals(string[0])) {
@@ -222,14 +236,92 @@ public class Model implements Serializable {
                     String minute = string[5];
                     String second = string[6];
                     String string2 = (numberTrack + "//" + nameTrack + "//" + nameGenre + "//" + newPerformer + "//" + titleAlbum + "//" + minute + "//" + second);
-                    s = s.replace(s, string2);
-                    writer.write(s);
+                    s = s.replaceAll(s, string2);
+                    //writer.write(s);
+                    bw.newLine();
+                    bw.write(s);
                 }
             }
             reader.close();
-            writer.close();
-            sourceFile.delete();
-            outputFile.renameTo(sourceFile);
+            bw.close();
+            //writer.close();
+
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+    }
+
+    public static void changeGenreName(String number) {
+        String s ;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите новое название жанра");
+        String newGenre = in.nextLine();
+        File sourceFile = new File("output.txt");
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(sourceFile, true));
+
+            while ((s = reader.readLine()) != null) {
+                String[] string  = s.split("//");
+                if (number.equals(string[0])) {
+                    string[2] = newGenre;
+                    String nameTrack = string[1];
+                    String numberTrack = string[0];
+                    String PerformerName = string[3];
+                    String titleAlbum = string[4];
+                    String minute = string[5];
+                    String second = string[6];
+                    String string2 = (numberTrack + "//" + nameTrack + "//" + newGenre + "//" + PerformerName + "//" + titleAlbum + "//" + minute + "//" + second);
+                    s = s.replaceAll(s, string2);
+                    //writer.write(s);
+                    bw.newLine();
+                    bw.write(s);
+                }
+            }
+            reader.close();
+            bw.close();
+            //writer.close();
+
+        } catch (IOException exc) {
+            System.out.println("IO error!" + exc);
+        }
+    }
+
+    public static void changeAlbomTitle(String number) {
+        String s ;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Введите новое название альбома");
+        String newAlbomTitle = in.nextLine();
+        File sourceFile = new File("output.txt");
+
+
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(sourceFile));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(sourceFile, true));
+
+            while ((s = reader.readLine()) != null) {
+                String[] string  = s.split("//");
+                if (number.equals(string[0])) {
+                    string[4] = newAlbomTitle;
+                    String numberTrack = string[0];
+                    String nameTrack = string[1];
+                    String nameGenre = string[2];
+                    String PerformerName = string[3];
+                    String minute = string[5];
+                    String second = string[6];
+                    String string2 = (numberTrack + "//" + nameTrack + "//" + nameGenre + "//" + PerformerName + "//" + newAlbomTitle + "//" + minute + "//" + second);
+                    s = s.replaceAll(s, string2);
+                    //writer.write(s);
+                    bw.newLine();
+                    bw.write(s);
+                }
+            }
+            reader.close();
+            bw.close();
+            //writer.close();
+
         } catch (IOException exc) {
             System.out.println("IO error!" + exc);
         }
@@ -278,6 +370,24 @@ public class Model implements Serializable {
         System.out.println(str);
     }
 
+
+
+
+
+    /*public static boolean hasDuplicates(ArrayList<Track> TracksList) {
+        for (Track track : TracksList)
+            for (int i=0; i<TracksList.size(); i++) {
+                Track firstPlaceCell = TracksList.get(i);
+                for (int j=i+1; j<TracksList.size(); j++) {
+                    Track secondPlaceCell = TracksList.get(j);
+                    if (firstPlaceCell.getNameTrack() == secondPlaceCell.getNameTrack()
+                            && firstPlaceCell.getNameGenre() == secondPlaceCell.getNameGenre()) {
+                        return true;
+                    }
+                }
+            }
+        return false;
+    }*/
     /*public void addNewTrack() {
         Scanner in = new Scanner(System.in);
         library.createTrack(inputTrack(in));
@@ -355,18 +465,4 @@ public class Model implements Serializable {
             System.out.println(tmp);
         }
     }*/
-   /* public static boolean hasDuplicates(ArrayList<Track> TracksList) {
-        for (Track track : TracksList)
-        for (int i=0; i<TracksList.size(); i++) {
-            Track firstPlaceCell = TracksList.get(i);
-            for (int j=i+1; j<TracksList.size(); j++) {
-                Track secondPlaceCell = TracksList.get(j);
-                if (firstPlaceCell.getNameTrack() == secondPlaceCell.getNameTrack()
-                        && firstPlaceCell.getNameGenre() == secondPlaceCell.getNameGenre()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-*/
+
